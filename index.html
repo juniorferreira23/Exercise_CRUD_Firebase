@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="register">
+       <div class="container">
+            <button class="btn btn-register" id="btn_register_user">Register User</button>
+
+            <!-- Form Insert -->
+            <div action="" class="form form-insert-user">
+                <h2>Insert User</h2>
+                <div class="line-input">
+                    <input type="text" id="insert_name" placeholder="Name">
+                    <input type="text" id="insert_last_name" placeholder="Last Name">
+                </div>
+                <div class="line-input">
+                    <input type="number" id="insert_age" placeholder="Age">
+                    <input type="number" id="insert_cpf" placeholder="CPF">
+                </div>
+                <div>
+                    <select name="gender" id="insert_gender">
+                        <option value="masculino">Male</option>
+                        <option value="feminino">Female</option>
+                    </select>
+                </div>
+                <div class="line-btn">
+                    <button type="submit" class="btn btn-close" id="close_insert_form">Close</button>
+                    <button type="submit" class="btn" id="btn_insert">Save</button>
+                </div>
+            </div>
+            <!--  -->
+
+            <!-- Form Update -->
+            <div action="" class="form form-update-user">
+                <h2>Update User</h2>
+                <div class="line-input">
+                    <input type="text" id="update_name" placeholder="Name">
+                    <input type="text" id="update_last_name" placeholder="Last Name">
+                </div>
+                <div class="line-input">
+                    <input type="number" id="update_age" placeholder="Age">
+                    <input type="number" id="update_cpf" placeholder="CPF">
+                </div>
+                <div>
+                    <select name="gender" id="update_gender">
+                        <option value="masculino">Male</option>
+                        <option value="feminino">Female</option>
+                    </select>
+                </div>
+                <div class="line-btn">
+                    <button type="submit" class="btn btn-close" id="close_update_form">Close</button>
+                    <button type="submit" class="btn" id="btn_update">Save</button>
+                </div>
+            </div>
+            <!--  -->
+
+       </div>
+    </div>
+    <div class="users">
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Last Name</td>
+                        <td>Gender</td>
+                        <td>Age</td>
+                        <td>CPF</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+        
+    <script type="module" src="app.js"></script>
+</body>
+</html>
+
+<!-- QUANDO TERMINAR LEMBRAR DE COLOCAR NO CURRICULO, LINKEDIN E GIT APRENDIZADO DE FIREBASE E BOOTSTRAP NO QUE TIVER FALTANDO E CRUD AGORA  -->
