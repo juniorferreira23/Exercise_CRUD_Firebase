@@ -81,8 +81,8 @@ function showUpdateForm(){
 
 
 
-async function initializeUserList(){
-    
+async function initializeUserList(){ //7 - iniciando lista de usuarios no view e tbm é chamado novamente ao adicionar, excluir ou alterar um dado para atualizar a lista
+
     await firebase.readDB()
     userList.innerHTML = ''  // clearing user list
 
@@ -92,10 +92,10 @@ async function initializeUserList(){
     // console.log(firebase.docsDB)
 }
 
-function createUserItemList(doc){
+function createUserItemList(doc){ //8 - criando elementos da lista
 
     let tRow = document.createElement('tr')
-    tRow.id = doc.id
+    tRow.id = doc.id //deixando uma âncora para trabalhar os dados no crud
 
     let tdNome = document.createElement('td')
     tdNome.innerHTML = doc.data().nome
@@ -119,7 +119,7 @@ function createUserItemList(doc){
     btnEdit.classList.add('btn-edit')
     btnEdit.innerHTML = 'Edit'
     btnEdit.addEventListener('click', function(event){
-        firebase.getUserId(event)
+        firebase.getUserId(event) // pegando elemento tr para trabalhar o id
         showUpdateForm()
     })
     tdBtns.appendChild(btnEdit)

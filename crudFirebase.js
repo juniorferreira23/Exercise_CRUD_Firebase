@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js"; //1 - inicialização Firebase FireStore .. substituir aqui! a config do firestore
 
 const firebaseConfig = {
     apiKey: "AIzaSyDS_w4ZEM9Us0ZUzTYmD0p35TCsUKi8z_k",
@@ -16,8 +16,8 @@ import { getFirestore, collection, doc, getDocs, getDoc, addDoc, updateDoc, dele
 
 const db = getFirestore() //pegando banco de dados
 
-const collectionName = 'usuario'
-const usuarioCollectionRef = collection(db, collectionName) //referencia da coleção usuario
+const collectionName = 'usuario' //2 - varial com a coleção desejada e maleável ... Alterar aqui! para o nome da sua coleção criada
+const usuarioCollectionRef = collection(db, collectionName) //3 - acessando coleção usuario
 
 
 
@@ -26,19 +26,23 @@ export const firebase = {
     docsDB: [],
     UserID: null,
 
-    readDB: async function(){
+    readDB: async function(){ //4 - Lendo os dados do Firestore DB
         
         var querySnapshot = await getDocs(usuarioCollectionRef); //querySnapshot é um referencia do banco de dados... Default => const querySnapshot = await getDocs(collection(db, "usuario"));
-        this.clearDocsDB()
+        this.clearDocsDB() // limpando array de usuarios ao ler novamente
         querySnapshot.forEach((doc)=> {
             // console.log(doc.id, "=>", doc.data());
             // console.log(doc.data().nome)
-            this.docsDB.push(doc)
+            this.getUsersDB(doc) //6 - executando pega de usuarios
         });
     },
 
+    getUsersDB: function(doc){ //5 - pegando todos os documentos dentro da coleção e colocando dentro de um array
+        this.docsDB.push(doc)
+    },
 
-    addUserDB: async function(objUserData){
+
+    addUserDB: async function(objUserData){ //9 - adiconando dados
         let add = await addDoc(usuarioCollectionRef, objUserData)
         .then(()=>{
             // alert('User added successfully')
@@ -55,7 +59,7 @@ export const firebase = {
         this.UserID = user.id
     },
 
-    deleteUserDB: function(event){
+    deleteUserDB: function(event){//10 - deletando dados
     
         this.getUserId(event)
         deleteDoc(doc(db, collectionName, this.UserID));
@@ -68,7 +72,7 @@ export const firebase = {
     },
 
     
-    pasteEditValue: async function(name, lastname, gender, age, cpf){
+    pasteEditValue: async function(name, lastname, gender, age, cpf){ //11 - quando abrir o form de editar dados ele já trás os campos preenchidos com o do campo clicado
     
         let docRef = await doc(db, 'usuario' , this.UserID)
         let docSnap = await getDoc(docRef);
@@ -85,7 +89,7 @@ export const firebase = {
           }
     },
 
-    updateUserDB: async function(name, lastname, gender, age, cpf){
+    updateUserDB: async function(name, lastname, gender, age, cpf){ //12 - pegar os dados do form edit e envia para o banco de dados
 
         let ref = await doc(db, 'usuario' , this.UserID)
     
