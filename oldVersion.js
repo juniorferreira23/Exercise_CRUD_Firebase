@@ -11,14 +11,15 @@ const firebaseConfig = {
     measurementId: "G-4JPCFJPPCV"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig); //Conectando com o banco de dados
 //------------------------------------------------------------
 
-import { getFirestore, doc, onSnapshot, getDocs, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField, query, where } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js"
+import { getFirestore, doc, getDocs, getDoc, collection, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js"
 
-const db = getFirestore() //Conectando com o banco de cados
+const db = getFirestore() //pegand banco de dados
 const usuarioCollectionRef = collection(db, 'usuario') //referencia da coleção usuario
 
+//------------------------- CONSTS ---------------------------------
 const btnRegister = document.querySelector('.btn-register')
 
 const formInsertUser = document.querySelector('.form-insert-user')
@@ -43,8 +44,10 @@ const btnCloseUpdate = document.querySelector('#close_update_form')
 
 const userList = document.querySelector('.table-body')
 
-let USER = null
+//------------------------- VARIABLE -------------------------------
+let UserID = null
 
+//---------------------- EVENTS AND EXEC FUNC ----------------------
 createUserList()
 
 
@@ -69,6 +72,7 @@ btnCloseUpdate.addEventListener('click', ()=>{
 })
 
 
+//-------------- 
 function resetForm(){
     InsertName.value = ''
     InsertLastName.value = ''
@@ -116,19 +120,19 @@ async function addData(){
 //------- LENDO TODOS OS DADOS DA COLEÇÃO/ READING ALL COLLECTION ---------
 async function createUserList(){
 
-    var querySnapshot = await getDocs(usuarioCollectionRef); //querySnapshot é um espelho do banco de dados... Default => const querySnapshot = await getDocs(collection(db, "usuario"));
+    var querySnapshot = await getDocs(usuarioCollectionRef); //querySnapshot é um referencia do banco de dados... Default => const querySnapshot = await getDocs(collection(db, "usuario"));
     userList.innerHTML = ''  // clearing user list
 
     querySnapshot.forEach((doc)=> {
-    // console.log(doc.id, "=>", doc.data());
-    // console.log(doc.data().nome)
-    createUserItemListDB(doc)
+        // console.log(doc.id, "=>", doc.data());
+        // console.log(doc.data().nome)
+        createUserItemList(doc)
     });
 
 
 }
 
-function createUserItemListDB(doc){
+function createUserItemList(doc){
 
     let tRow = document.createElement('tr')
     tRow.id = doc.id
@@ -150,13 +154,15 @@ function createUserItemListDB(doc){
 
     let tdBtns = document.createElement('td')
 
-    let btnUpdate = document.createElement('button')
-    btnUpdate.classList.add('btn')
-    btnUpdate.classList.add('btn-update')
-    btnUpdate.innerHTML = 'Edit'
-    btnUpdate.addEventListener('click', getUserId)
-    btnUpdate.addEventListener('click', showUpdateForm)
-    tdBtns.appendChild(btnUpdate)
+    let btnEdit = document.createElement('button')
+    btnEdit.classList.add('btn')
+    btnEdit.classList.add('btn-edit')
+    btnEdit.innerHTML = 'Edit'
+    btnEdit.addEventListener('click', (event)=>{
+        getUserId(event)
+        showUpdateForm()
+    })
+    tdBtns.appendChild(btnEdit)
 
     let btnDelete = document.createElement('button')
     btnDelete.classList.add('btn')
@@ -191,7 +197,7 @@ function deleteUser(event){
 //------------ EDITANDO USUARIO/ UPDATE USER -------------------
 async function updateUser(){
 
-    let ref = await doc(db, 'usuario' , USER)
+    let ref = await doc(db, 'usuario' , UserID)
 
     updateDoc(ref, {
         nome: UpdateName.value,
@@ -206,7 +212,7 @@ async function updateUser(){
 
 async function necklaceData(){
 
-    let docRef = await doc(db, 'usuario' , USER)
+    let docRef = await doc(db, 'usuario' , UserID)
     let docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
         // console.log("Document data:", docSnap.data());
@@ -225,6 +231,6 @@ function getUserId(event){
 
     let user = event.target.parentElement.parentElement;
     
-    USER = user.id
+    UserID = user.id
 
 }
