@@ -35,6 +35,7 @@ export const firebase = {
             // console.log(doc.data().nome)
             this.getUsersDB(doc) //6 - executando pega de usuarios
         });
+        // console.log(this.docsDB)
     },
 
     getUsersDB: function(doc){ //5 - pegando todos os documentos dentro da coleção e colocando dentro de um array

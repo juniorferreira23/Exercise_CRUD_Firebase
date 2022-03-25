@@ -33,7 +33,7 @@ initializeUserList()
 btnRegister.addEventListener('click', showInsertForm)
 
 btnInsert.addEventListener('click', ()=>{
-    firebase.addUserDB(getUserValue())
+    firebase.addUserDB(getUserInsertedValue())
     initializeUserList()
     resetForm()
 })
@@ -144,7 +144,7 @@ function createUserItemList(doc){ //8 - criando elementos da lista
 }
 
 
-function getUserValue(){
+function getUserInsertedValue(){
     return {
         nome: InsertName.value,
         sobrenome: InsertLastName.value,
