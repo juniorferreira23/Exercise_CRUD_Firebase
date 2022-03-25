@@ -75,7 +75,7 @@ export const firebase = {
     
     pasteEditValue: async function(name, lastname, gender, age, cpf){ //11 - quando abrir o form de editar dados ele já trás os campos preenchidos com o do campo clicado
     
-        let docRef = await doc(db, 'usuario' , this.UserID)
+        let docRef = await doc(db, collectionName , this.UserID)
         let docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             // console.log("Document data:", docSnap.data());
@@ -92,7 +92,7 @@ export const firebase = {
 
     updateUserDB: async function(name, lastname, gender, age, cpf){ //12 - pegar os dados do form edit e envia para o banco de dados
 
-        let ref = await doc(db, 'usuario' , this.UserID)
+        let ref = await doc(db, collectionName , this.UserID)
     
         updateDoc(ref, {
             nome: name.value,
