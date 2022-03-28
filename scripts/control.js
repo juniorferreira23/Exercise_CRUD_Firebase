@@ -1,5 +1,7 @@
 import { firebase } from "./crudFirebase.js"
 
+let contId = 0
+
 const btnRegister = document.querySelector('.btn-register')
 
 const formInsertUser = document.querySelector('.form-insert-user')
@@ -29,26 +31,29 @@ const userList = document.querySelector('.table-body')
 
 initializeUserList()
 
-
 btnRegister.addEventListener('click', showInsertForm)
 
-btnInsert.addEventListener('click', ()=>{
-    firebase.addUserDB(getUserInsertedValue())
-    initializeUserList()
-    resetForm()
+btnInsert.addEventListener('click', () => {
+    if(inputValidation(InsertName, InsertLastName, InsertAge, InsertCpf)){
+        firebase.addUserDB(getUserInsertedValue())
+        initializeUserList()
+        resetForm()
+    }
 })
 
-btnCloseInsert.addEventListener('click', ()=>{
+btnCloseInsert.addEventListener('click', () => {
     showInsertForm()
     resetForm()
 })
 
-btnUpdate.addEventListener('click', ()=>{
-    firebase.updateUserDB(UpdateName, UpdateLastName, UpdateGender, UpdateAge, UpdateCpf)
-    initializeUserList()
+btnUpdate.addEventListener('click', async () => {
+    if(inputValidation(UpdateName, UpdateLastName, UpdateAge, UpdateCpf)){
+        await firebase.updateUserDB(UpdateName, UpdateLastName, UpdateGender, UpdateAge, UpdateCpf)
+        initializeUserList()
+    }
 })
 
-btnCloseUpdate.addEventListener('click', ()=>{
+btnCloseUpdate.addEventListener('click', () => {
     showUpdateForm()
     resetForm()
 })
@@ -89,13 +94,15 @@ async function initializeUserList(){ //7 - iniciando lista de usuarios no view e
     firebase.docsDB.forEach(doc => {
         createUserItemList(doc)
     })
+
+    contId = 0
     // console.log(firebase.docsDB)
 }
 
 function createUserItemList(doc){ //8 - criando elementos da lista
 
     let tRow = document.createElement('tr')
-    tRow.id = doc.id //deixando uma âncora para trabalhar os dados no crud
+    tRow.id = contId //deixando uma âncora para trabalhar os dados no crud
 
     let tdNome = document.createElement('td')
     tdNome.innerHTML = doc.data().nome
@@ -119,8 +126,12 @@ function createUserItemList(doc){ //8 - criando elementos da lista
     btnEdit.classList.add('btn-edit')
     btnEdit.innerHTML = 'Edit'
     btnEdit.addEventListener('click', function(event){
-        firebase.getUserId(event) // pegando elemento tr para trabalhar o id
-        showUpdateForm()
+        if(listValidation(event)){
+            firebase.getUserId(event) // pegando elemento tr para trabalhar o id
+            showUpdateForm()
+        }else{
+            location.reload()
+        }
     })
     tdBtns.appendChild(btnEdit)
 
@@ -128,9 +139,13 @@ function createUserItemList(doc){ //8 - criando elementos da lista
     btnDelete.classList.add('btn')
     btnDelete.classList.add('btn-delete')
     btnDelete.innerHTML = 'Delete'
-    btnDelete.addEventListener('click', (event) => {
-        firebase.deleteUserDB(event)
-        initializeUserList()
+    btnDelete.addEventListener('click', async (event) => {
+        if(listValidation(event)){
+            await firebase.deleteUserDB(event)
+            initializeUserList()
+        }else{
+            location.reload()
+        }
     })
     tdBtns.appendChild(btnDelete)
 
@@ -141,15 +156,57 @@ function createUserItemList(doc){ //8 - criando elementos da lista
     tRow.appendChild(tdCpf)
     tRow.appendChild(tdBtns)
     userList.appendChild(tRow)
+
+    contId++
 }
 
 
 function getUserInsertedValue(){
     return {
-        nome: InsertName.value,
-        sobrenome: InsertLastName.value,
+        nome: InsertName.value.toLowerCase(),
+        sobrenome: InsertLastName.value.toLowerCase(),
         genero: InsertGender.value,
         idade: parseInt(InsertAge.value),
         cpf: InsertCpf.value
     }
+}
+
+function listValidation(event){ // verificação de dados para que não haja alteração nos ids
+
+    firebase.getUserId(event)
+
+    let nameHtml =  event.target.parentElement.parentElement.firstChild.innerHTML
+    let cpfHtml =  event.target.parentElement.parentElement.children[4].innerHTML
+
+    if(firebase.docsDB[firebase.userId].data().nome == nameHtml  &&  firebase.docsDB[firebase.userId].data().cpf == cpfHtml){
+        return true
+    }else{
+
+        return false
+    }
+}
+
+function inputValidation(inputName, inputLastName, inputAge, inputCpf){ // verificação de campos
+
+    if(inputName.value == '' || typeof(inputName.value) != 'string'){
+        alert('Incorrent Name')
+        return false
+    }
+
+    if(inputLastName.value == '' || typeof(inputLastName.value) != 'string'){
+        alert('Incorrent Last Name')
+        return false
+    }
+
+    if(inputAge.value == ''){
+        alert('Incorrent Age')
+        return false
+    }
+
+    if(inputCpf.value.length != 11){
+        alert('Incorrent Cpf')
+        return false
+    }
+
+    return true
 }

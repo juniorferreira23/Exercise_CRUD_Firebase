@@ -1,0 +1,5 @@
+1- melhorar a segurança do projeto removendo o id dos elementos html e que continue a boa manipulação do projeto - check
+2- fazer verificação de inputs - check
+2- fazer o resposivo do projeto 
+3- adicionar o firestorage no projeto colocando foto de perfil nos usuarios
+4- alterar design do projeto e alterar os dados que de entrada
