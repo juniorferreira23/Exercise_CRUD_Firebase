@@ -121,10 +121,11 @@ function createUserItemList(doc){ //8 - criando elementos da lista
 
     let tdBtns = document.createElement('td')
 
-    let btnEdit = document.createElement('button')
+    let btnEdit = document.createElement('a')
     btnEdit.classList.add('btn')
     btnEdit.classList.add('btn-edit')
     btnEdit.innerHTML = 'Edit'
+    btnEdit.setAttribute('href','#form_update')
     btnEdit.addEventListener('click', function(event){
         if(listValidation(event)){
             firebase.getUserId(event) // pegando elemento tr para trabalhar o id

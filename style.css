@@ -7,12 +7,14 @@
 
 html, body{
     height: 100%;
+    scroll-behavior: smooth;
 }
 
 .container{
     width: 100%;
     max-width: 1098px;
     margin: 0 auto;
+    padding: 0 10px;
 }
 
 .btn{
@@ -82,7 +84,7 @@ html, body{
     border: none;
 }
 
-.form-insert-user select{
+.form-insert-user select , .form-update-user select{
     border: none;
     height: 30px;
     margin-bottom: 1em;
@@ -97,6 +99,11 @@ html, body{
     background-color: rgb(42, 189, 37);
 }
 
+.btn-edit {
+    text-decoration: none;
+    padding: 10px 25px;
+}
+
 .btn-close, .btn-delete{
     color: white;
     background-color: rgb(189, 50, 26);
@@ -104,7 +111,7 @@ html, body{
 
 .users{
     max-height: 700px;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 table{
@@ -124,4 +131,44 @@ table thead{
 
 table tbody tr{
     background-color: rgb(231, 231, 231);
+}
+
+
+@media screen and (max-width: 638px) {
+    .form{
+        width: auto;
+    }
+    .line-input{
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .users{
+        max-height: auto;
+        overflow-y: visible;
+    }
+
+    table tr{
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    table tr td{
+        
+        border: 1px solid white;
+    }
+
+    thead tr td{
+        padding: 5px 0;
+    }
+
+    tbody tr {
+        margin: 30px 0;
+    }
+
+    tbody tr td {
+        padding: 10px 0;
+    }
 }
